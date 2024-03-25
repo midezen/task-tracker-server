@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 mongoose
-  .connect(process.env.mongoURL)
+  .connect(process.env.mongoUrL)
   .then(() => console.log("db connected"))
   .catch((err) => console.log("db is not connected. This is the" + err));
 
