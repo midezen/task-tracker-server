@@ -10,6 +10,7 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
+const router = express.Router();
 
 app.use(express.json());
 
@@ -21,7 +22,7 @@ mongoose
   .then(() => console.log("db connected"))
   .catch((err) => console.log("db is not connected. This is the" + err));
 
-app.get("/health", (req, res) => {
+router.get("/health", (req, res) => {
   res.status(200).json({ status: "UP" });
 });
 
@@ -29,6 +30,6 @@ app.use("/api/auth", AuthRoute);
 app.use("/api/user", UserRoute);
 app.use("/api/task", TaskRoute);
 
-app.listen(8800, () => {
-  console.log("app is connected and listening on port 8800");
+app.listen(8000, () => {
+  console.log("app is connected and listening on port 8000");
 });
