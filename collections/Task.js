@@ -1,4 +1,5 @@
 import Task from "../models/Task.js";
+import User from "../models/User.js";
 
 export const createTask = async (req, res) => {
   try {
@@ -10,7 +11,15 @@ export const createTask = async (req, res) => {
       taskStatus: req.body.taskStatus,
     });
 
+    const theAssignedUser = await User.findOne({
+      username: newTask.assignedUser,
+    });
+
+    !theAssignedUser && res.status(404).json("This user does not exist");
+    theAssignedUser.tasks.push(newTask);
+    theAssignedUser.save();
     const savedTask = await newTask.save();
+
     res.status(200).json(savedTask);
   } catch (err) {
     res.status(500).json(err);
@@ -37,7 +46,14 @@ export const updateTask = async (req, res) => {
 
 export const deleteTask = async (req, res) => {
   try {
+    const task = await Task.findById(req.params.id);
+    const taskAssignedUser = await User.findOne({
+      username: task.assignedUser,
+    });
+    taskAssignedUser.tasks.pull(task);
+    taskAssignedUser.save();
     await Task.findByIdAndDelete(req.params.id);
+
     res.status(200).json("Successfully deleted task");
   } catch (err) {
     res.status(500).json(err);
@@ -75,15 +91,6 @@ export const getTasks = async (req, res) => {
       tasks = await Task.find().sort({ createdAt: "desc" });
     }
     res.status(200).json(tasks);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-};
-
-export const getUserTasks = async (req, res) => {
-  try {
-    const userTasks = await Task.find({ assignedUser: req.params.username });
-    res.status(200).json(userTasks);
   } catch (err) {
     res.status(500).json(err);
   }
