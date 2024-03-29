@@ -5,7 +5,6 @@ import {
   deleteTask,
   getTask,
   getTasks,
-  getUserTasks,
   updateTask,
 } from "../collections/Task.js";
 
@@ -16,6 +15,5 @@ router.put("/updateTask/:id", verifyToken, updateTask);
 router.delete("/deleteTask/:id", verifyTokenAndAdmin, deleteTask);
 router.get("/getTask/:id", verifyToken, getTask);
 router.get("/getTasks", verifyTokenAndAdmin, getTasks);
-router.get("/getUserTasks/:username", verifyToken, getUserTasks);
 
 export default router;

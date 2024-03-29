@@ -51,7 +51,7 @@ export const getUser = async (req, res) => {
 
 export const getLoggedInUser = async (req, res) => {
   try {
-    const token = req.cookies.access_token;
+    const token = req.cookies.access_token
     !token && res.status(401).json("Unauthorized");
     jwt.verify(token, process.env.jwtKey, async (err, data) => {
       err && res.status(401).json("Invalid token");
