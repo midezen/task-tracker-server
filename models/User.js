@@ -14,6 +14,8 @@ const UserSchema = new mongoose.Schema(
         assignedUser: { type: String, require: true },
         deadLine: { type: String, require: true },
         taskStatus: { type: String, default: "not started" },
+        createdAt: { type: String },
+        updatedAt: { type: String },
       },
     ],
   },

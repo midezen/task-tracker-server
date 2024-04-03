@@ -16,9 +16,9 @@ export const createTask = async (req, res) => {
     });
 
     !theAssignedUser && res.status(404).json("This user does not exist");
-    theAssignedUser.tasks.push(newTask);
-    theAssignedUser.save();
     const savedTask = await newTask.save();
+    theAssignedUser.tasks.push(savedTask);
+    theAssignedUser.save();
 
     res.status(200).json(savedTask);
   } catch (err) {
@@ -29,18 +29,23 @@ export const createTask = async (req, res) => {
 export const updateTask = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
-    if (task.assignedUser !== req.user.username && req.user.isAdmin === false) {
-      res.status(403).json("You're not allowed to do that");
-    } else {
-      const updatedTask = await Task.findByIdAndUpdate(
-        req.params.id,
-        { $set: req.body },
-        { new: true }
-      );
-      res.status(200).json(updatedTask);
-    }
+    const theAssignedUser = await User.findOne({ username: task.assignedUser });
+    theAssignedUser.tasks.pull(task);
+
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+
+    theAssignedUser.tasks.push(updatedTask);
+
+    theAssignedUser.save();
+
+    res.status(200).json(updatedTask);
   } catch (err) {
-    res.status(500).json(err);
+    console.log(err);
+    res.status(500).send(err);
   }
 };
 
