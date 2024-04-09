@@ -18,6 +18,7 @@ app.use(cookieParser());
 const corsOptions = {
   origin: "https://dazzling-praline-5c3ff0.netlify.app",
   methods: ["GET", "POST", "PUT", "DELETE"], // Example methods you may want to allow
+  credentials: true,
 };
 
 // Use cors with the above options for all routes
