@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, require: true, unique: true },
     password: { type: String, require: true },
     isAdmin: { type: Boolean, require: true },
-    tasks: { type: Array, default: {} },
+    tasks: { type: Array, default: [{}] },
   },
   { timestamps: true }
 );
