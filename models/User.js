@@ -9,11 +9,11 @@ const UserSchema = new mongoose.Schema(
     isAdmin: { type: Boolean, require: true },
     tasks: [
       {
-        taskName: { type: String, require: true, unique: true },
+        taskName: { type: String },
         description: { type: String },
-        assignedUser: { type: String, require: true },
-        deadLine: { type: String, require: true },
-        taskStatus: { type: String, default: "not started" },
+        assignedUser: { type: String },
+        deadLine: { type: String },
+        taskStatus: { type: String },
         createdAt: { type: String },
         updatedAt: { type: String },
       },
