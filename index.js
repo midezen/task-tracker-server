@@ -23,16 +23,6 @@ const corsOptions = {
 // Use cors with the above options for all routes
 app.use(cors(corsOptions));
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); // Specific origin
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  ); // Include other headers you want to allow
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); // Include other methods you want to allow
-  next();
-});
-
 mongoose
   .connect(process.env.mongoUrL)
   .then(() => console.log("db connected"))

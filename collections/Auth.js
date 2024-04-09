@@ -22,6 +22,7 @@ export const register = async (req, res) => {
       email: req.body.email,
       password: encryptedPassword,
       isAdmin: req.body.isAdmin,
+      tasks: req.body.tasks,
     });
     const savedUser = await newUser.save();
     res.status(200).json(savedUser);
@@ -48,12 +49,12 @@ export const login = async (req, res) => {
 
     const { password, ...others } = user._doc;
 
-    res.cookie("access_token", token,
-      {
+    res
+      .cookie("access_token", token, {
         httpOnly: false,
         maxAge: 24 * 60 * 60 * 3000,
         sameSite: "None",
-        secure: true
+        secure: true,
       })
       .status(200)
       .json(others);
