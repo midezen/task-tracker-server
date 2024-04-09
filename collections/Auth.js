@@ -22,7 +22,6 @@ export const register = async (req, res) => {
       email: req.body.email,
       password: encryptedPassword,
       isAdmin: req.body.isAdmin,
-      tasks: req.body.tasks,
     });
     const savedUser = await newUser.save();
     res.status(200).json(savedUser);

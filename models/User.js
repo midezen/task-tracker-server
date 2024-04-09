@@ -7,7 +7,19 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, require: true, unique: true },
     password: { type: String, require: true },
     isAdmin: { type: Boolean, require: true },
-    tasks: { type: Array, default: [{}] },
+    tasks: [
+      {
+        taskName: { type: String, default: null },
+        description: { type: String },
+        assignedBy: { type: String },
+        assignedUser: { type: String },
+        deadLine: { type: String },
+        priority: { type: String },
+        taskStatus: { type: String, default: "not started" },
+        createdAt: { type: String },
+        updatedAt: { type: String },
+      },
+    ],
   },
   { timestamps: true }
 );
