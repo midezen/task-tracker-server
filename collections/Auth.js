@@ -33,12 +33,15 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    !user && res.status(404).json("User not found");
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
 
     const bytes = CryptoJS.AES.decrypt(user.password, process.env.PassKey);
     const unhashedPassword = bytes.toString(CryptoJS.enc.Utf8);
-    unhashedPassword !== req.body.password &&
-      res.status(401).json("Wrong Password");
+    if (unhashedPassword !== req.body.password) {
+      return res.status(401).json("Wrong Password");
+    }
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin, username: user.username },
@@ -48,19 +51,21 @@ export const login = async (req, res) => {
 
     const { password, ...others } = user._doc;
 
-    res
-      .cookie("access_token", token, {
-        httpOnly: false,
-        maxAge: 24 * 60 * 60 * 3000,
-        sameSite: "None",
-        secure: true,
-      })
-      .status(200)
-      .json(others);
+    // Set the cookie
+    res.cookie("access_token", token, {
+      httpOnly: false,
+      maxAge: 24 * 60 * 60 * 3000,
+      sameSite: "None",
+      secure: true,
+    });
+
+    // Send the response
+    return res.status(200).json(others);
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
+
 
 export const logout = async (req, res) => {
   try {

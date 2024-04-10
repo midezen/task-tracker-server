@@ -17,11 +17,17 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use(
-  cors({
-    credentials: true,
-  })
-);
+app.use( cors({
+  origin: "https://yabatech-task-tracker-1.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+  exposedHeaders: ["set-cookie"]
+}))
+
+app.options("*", cors(
+  { credentials: true,
+  exposedHeaders: ["set-cookie"]
+}))
 
 mongoose
   .connect(process.env.mongoUrL)
@@ -32,14 +38,7 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "UP" });
 });
 
-app.use(
-  "/api/auth",
-  cors({
-    origin: "https://yabatech-task-tracker-1.onrender.com/auth",
-    credentials: true,
-  }),
-  AuthRoute
-);
+app.use("/api/auth", AuthRoute);
 app.use("/api/user", UserRoute);
 app.use("/api/task", TaskRoute);
 
