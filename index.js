@@ -17,17 +17,16 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use( cors({
-  origin: "https://yabatech-task-tracker-1.onrender.com",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-  exposedHeaders: ["set-cookie"]
-}))
+app.use(
+  cors({
+    origin: "https://yabatech-task-tracker-1.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+    exposedHeaders: ["set-cookie"],
+  })
+);
 
-app.options("*", cors(
-  { credentials: true,
-  exposedHeaders: ["set-cookie"]
-}))
+app.options("*", cors({ credentials: true, exposedHeaders: ["set-cookie"] }));
 
 mongoose
   .connect(process.env.mongoUrL)
