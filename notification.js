@@ -13,18 +13,15 @@ const transporter = nodemailer.createTransport({
 
 export const sendTaskNotification = async (
   assignerEmail,
-  assignedUserEmail,
-  taskStatus
+  assignedUserEmail
 ) => {
   try {
     // Compose the email message
     const mailOptions = {
       from: assignerEmail,
       to: assignedUserEmail,
-      subject: "Task Status Notification",
-      text: `Dear ${assignedUserEmail}, Your task is currently in the "${taskStatus}" status.
-       Best regards,
-       ${assignerEmail}`,
+      subject: "Task Notification",
+      text: `Dear ${assignedUserEmail}, you have a new task, kindly log in to your app to view. Best regards, ${assignerEmail}`,
     };
 
     // Send the email
@@ -37,8 +34,7 @@ export const sendTaskNotification = async (
 
 export const sendReminderTaskNotification = async (
   assignerEmail,
-  assignedUserEmail,
-  taskStatus
+  assignedUserEmail
 ) => {
   try {
     // Compose the email message

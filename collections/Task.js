@@ -24,11 +24,7 @@ export const createTask = async (req, res) => {
     theAssignedUser.tasks.push(savedTask);
     theAssignedUser.save();
 
-    sendTaskNotification(
-      "adenirandaniel565@gmail",
-      "adenirandaniel575@gmail.com",
-      "not started"
-    );
+    sendTaskNotification(savedTask.assignedBy, savedTask.assignedUser);
     //since it is automated, we will now use crom
     // Schedule a cron job to run every day
     nodecron.schedule("0 0 * * *", async () => {
