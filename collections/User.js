@@ -50,12 +50,13 @@ export const getUser = async (req, res) => {
 };
 
 export const getLoggedInUser = async (req, res) => {
+  
   try {
     const token = req.cookies.access_token;
     if (!token) {
       return res.status(401).json("Unauthorized");
     }
-    jwt.verify(token, process.env.jwtKey, async (err, data) => {
+    jwt.verify(token, "jwtKeyyyy", async (err, data) => {
       if (err) {
         return res.status(401).json("Invalid token");
       }

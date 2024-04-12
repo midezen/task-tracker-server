@@ -51,15 +51,16 @@ export const login = async (req, res) => {
 
     const { password, ...others } = user._doc;
 
+
+    
     // Set the cookie
     res.cookie("access_token", token, {
       httpOnly: false,
-      maxAge: 24 * 60 * 60 * 3000,
-      sameSite: "None",
-      secure: true,
+      maxAge: 259200000,
+      path: "/",
+      secure: true, 
+      sameSite: "None"
     });
-
-    // Send the response
     return res.status(200).json(others);
   } catch (err) {
     return res.status(500).json(err);

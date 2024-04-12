@@ -19,14 +19,22 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "https://yabatech-task-tracker-1.onrender.com",
+    origin: "https://dazzling-praline-5c3ff0.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-    exposedHeaders: ["set-cookie"],
+    exposedHeaders: ["*"],
   })
 );
 
-app.options("*", cors({ credentials: true, exposedHeaders: ["set-cookie"] }));
+app.options(
+  "*",
+  cors({
+    credentials: true,
+    origin: "https://dazzling-praline-5c3ff0.netlify.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    exposedHeaders: ["*"],
+  })
+);
 
 mongoose
   .connect(process.env.mongoUrL)
